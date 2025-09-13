@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ログイン</title>
-    @vite('resources/css/app.css')
+
+    {{-- Viteではなく直接CSSを読み込む --}}
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
@@ -17,7 +19,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login.attempt') }}">
+        <form method="POST" action="{{ route('login') }}">
             @csrf
             <div class="mb-4">
                 <label for="email" class="block text-sm font-medium">ID（メールアドレス）</label>
@@ -40,3 +42,6 @@
 
 </body>
 </html>
+<!-- Tailwind CDN（開発用） -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/@tailwindcss/line-clamp@latest"></script>
