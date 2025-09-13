@@ -41,3 +41,5 @@
     </div>
 </body>
 </html>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/@tailwindcss/line-clamp@latest"></script>
