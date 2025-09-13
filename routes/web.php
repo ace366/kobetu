@@ -7,8 +7,13 @@ use App\Http\Controllers\SettingsController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+
+    // ユーザー管理
+    Route::get('/settings/users', [SettingsController::class, 'listUsers'])->name('settings.listUsers');
     Route::get('/settings/users/create', [SettingsController::class, 'createUser'])->name('settings.createUser');
     Route::post('/settings/users', [SettingsController::class, 'storeUser'])->name('settings.storeUser');
+    Route::get('/settings/users/{id}/edit', [SettingsController::class, 'editUser'])->name('settings.editUser');
+    Route::patch('/settings/users/{id}', [SettingsController::class, 'updateUser'])->name('settings.updateUser');
 });
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
