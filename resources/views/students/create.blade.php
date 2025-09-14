@@ -40,14 +40,16 @@
 
             <div class="mb-3">
                 <label class="block mb-1">学校名</label>
-                <select name="school_id" class="w-full border rounded px-2 py-1" required>
-                    <option value="">学校を選択してください</option>
+                <input type="text" name="school_name" list="schools" 
+                    class="w-full border rounded px-2 py-1" placeholder="学校を入力してください" required>
+
+                <datalist id="schools">
                     @foreach($schools as $school)
-                        <option value="{{ $school->id }}">
+                        <option value="{{ $school->name }}">
                             {{ $school->name }} ({{ $school->city }} {{ $school->prefecture }})
                         </option>
                     @endforeach
-                </select>
+                </datalist>
             </div>
 
             <div class="mb-3">
