@@ -15,7 +15,13 @@
 <div class="max-w-2xl mx-auto p-4 chat-container">
     <h1 class="text-xl font-bold mb-2">教えて！彩さん！</h1>
 
-    <input type="hidden" id="session_id" value="{{ $session->id }}">
+    {{-- Bladeの値は data-* に埋めて JS は dataset から読む（BladeとJSを完全分離） --}}
+    <div id="ai-config"
+         data-session-id="{{ $session->id }}"
+         data-ask-url="{{ route('ask.ai.post') }}"
+         data-csrf="{{ csrf_token() }}"
+         data-aya-icon="{{ asset('images/aya_icon.png') }}">
+    </div>
 
     <div id="chat-box" class="chat-box">
         @if(!empty($greeting))
@@ -47,17 +53,18 @@
     </form>
 </div>
 
-{{-- ここから下は必ず <script> の中に置く。Blade を JS に直接混ぜない。 --}}
+{{-- ここから下は Blade に一切解釈させない --}}
+@verbatim
 <script>
 (function(){
-    const form = document.getElementById('chat-form');
-    const chatBox = document.getElementById('chat-box');
-    const sessionId = document.getElementById('session_id').value;
+    const chatBox   = document.getElementById('chat-box');
+    const form      = document.getElementById('chat-form');
+    const cfg       = document.getElementById('ai-config').dataset;
 
-    // Bladeの値は先にJS変数へ（@json で安全に）
-    const askUrl  = @json(route('ask.ai.post'));
-    const csrf    = @json(csrf_token());
-    const ayaIcon = @json(asset('images/aya_icon.png'));
+    const sessionId = cfg.sessionId;
+    const askUrl    = cfg.askUrl;
+    const csrf      = cfg.csrf;
+    const ayaIcon   = cfg.ayaIcon;
 
     function scrollBottom(){ chatBox.scrollTop = chatBox.scrollHeight; }
     scrollBottom();
@@ -65,7 +72,7 @@
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const input = document.getElementById('question');
-        const q = input.value.trim();
+        const q = (input.value || '').trim();
         if (!q) return;
 
         // 自分の吹き出し
@@ -78,7 +85,6 @@
         input.value = '';
         scrollBottom();
 
-        // 送信
         let data;
         try {
             const res = await fetch(askUrl, {
@@ -94,16 +100,17 @@
             data = { answer: '（通信に失敗しました）' };
         }
 
-        // 彩さんの吹き出し
         chatBox.insertAdjacentHTML('beforeend', `
             <div class="message assistant">
                 <img src="${ayaIcon}" alt="彩さん" class="avatar">
                 <div class="bubble assistant"></div>
             </div>
         `);
-        chatBox.lastElementChild.querySelector('.bubble').innerText = (data && data.answer) ? data.answer : '（回答取得エラー）';
+        chatBox.lastElementChild.querySelector('.bubble').innerText =
+            (data && data.answer) ? data.answer : '（回答取得エラー）';
         scrollBottom();
     });
 })();
 </script>
+@endverbatim
 </x-layouts.student_nav>
