@@ -1,14 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-        <div class="mt-2 space-x-4">
-            <a href="{{ route('register.create') }}" class="text-blue-600 hover:underline">新規登録</a>
-            <a href="{{ route('settings.listUsers') }}" class="text-blue-600 hover:underline">ユーザー一覧</a>
-        </div>
-    </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
