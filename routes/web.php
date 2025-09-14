@@ -7,6 +7,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SchoolController;
 use App\Models\User;
+
 // =======================
 // 生徒ログイン
 // =======================
