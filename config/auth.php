@@ -7,9 +7,7 @@ return [
     | Authentication Defaults
     |--------------------------------------------------------------------------
     |
-    | This option controls the default authentication "guard" and password
-    | reset options for your application. You may change these defaults
-    | as required, but they're a perfect start for most applications.
+    | 既定のガードとパスワードブローカーを指定します。
     |
     */
 
@@ -23,13 +21,8 @@ return [
     | Authentication Guards
     |--------------------------------------------------------------------------
     |
-    | Next, you may define every authentication guard for your application.
-    | Of course, a great default configuration has been defined for you
-    | here which uses session storage and the Eloquent user provider.
-    |
-    | All authentication drivers have a user provider. This defines how the
-    | users are actually retrieved out of your database or other storage
-    | mechanisms used by this application to persist your user's data.
+    | それぞれのガードを定義します。学生用に "student" を追加しています。
+    | driver は session、provider は下の "providers" で定義します。
     |
     | Supported: "session"
     |
@@ -38,12 +31,12 @@ return [
     'guards' => [
         'web' => [
             'driver'   => 'session',
-            'provider' => 'users',   // 管理者用
+            'provider' => 'users',     // 管理者/職員など
         ],
 
         'student' => [
             'driver'   => 'session',
-            'provider' => 'students', // 生徒用
+            'provider' => 'students',  // 生徒用
         ],
     ],
 
@@ -52,15 +45,10 @@ return [
     | User Providers
     |--------------------------------------------------------------------------
     |
-    | All authentication drivers have a user provider. This defines how the
-    | users are actually retrieved out of your database or other storage
-    | mechanisms used by this application to persist your user's data.
+    | 各ガードが参照するユーザープロバイダを定義します。
+    | Eloquentモデルを使う場合は "eloquent"、テーブル直参照なら "database"。
     |
-    | If you have multiple user tables or models you may configure multiple
-    | sources which represent each model / table. These sources may then
-    | be assigned to any extra authentication guards you have defined.
-    |
-    | Supported: "database", "eloquent"
+    | Supported: "eloquent", "database"
     |
     */
 
@@ -74,6 +62,12 @@ return [
             'driver' => 'eloquent',
             'model'  => App\Models\Student::class,
         ],
+
+        // "database" 例:
+        // 'users' => [
+        //     'driver' => 'database',
+        //     'table'  => 'users',
+        // ],
     ],
 
     /*
@@ -81,25 +75,24 @@ return [
     | Resetting Passwords
     |--------------------------------------------------------------------------
     |
-    | You may specify multiple password reset configurations if you have more
-    | than one user table or model in the application and you want to have
-    | separate password reset settings based on the specific user types.
-    |
-    | The expiry time is the number of minutes that each reset token will be
-    | considered valid. This security feature keeps tokens short-lived so
-    | they have less time to be guessed. You may change this as needed.
-    |
-    | The throttle setting is the number of seconds a user must wait before
-    | generating more password reset tokens. This prevents the user from
-    | quickly generating a very large amount of password reset tokens.
+    | パスワードリセット設定。必要に応じて学生用のブローカーも用意しています。
+    | テーブルは Laravel10 既定の "password_reset_tokens" を共有で使用可能です。
     |
     */
 
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table' => 'password_reset_tokens',
-            'expire' => 60,
+            'table'    => 'password_reset_tokens',
+            'expire'   => 60,   // 分
+            'throttle' => 60,   // 秒
+        ],
+
+        // 生徒用のリセットを使う場合のみ有効化
+        'students' => [
+            'provider' => 'students',
+            'table'    => 'password_reset_tokens',
+            'expire'   => 60,
             'throttle' => 60,
         ],
     ],
@@ -109,9 +102,7 @@ return [
     | Password Confirmation Timeout
     |--------------------------------------------------------------------------
     |
-    | Here you may define the amount of seconds before a password confirmation
-    | times out and the user is prompted to re-enter their password via the
-    | confirmation screen. By default, the timeout lasts for three hours.
+    | パスワード再確認のタイムアウト（秒）。既定は3時間。
     |
     */
 
