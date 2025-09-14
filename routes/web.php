@@ -7,7 +7,16 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SchoolController;
 use App\Models\User;
+// =======================
+// 生徒ログイン
+// =======================
+use App\Http\Controllers\StudentAuthController;
 
+Route::prefix('student')->name('student.')->group(function () {
+    Route::get('/login', [StudentAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [StudentAuthController::class, 'login'])->name('login.attempt');
+    Route::post('/logout', [StudentAuthController::class, 'logout'])->name('logout');
+});
 /*
 |--------------------------------------------------------------------------
 | Web Routes
