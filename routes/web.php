@@ -65,7 +65,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // =======================
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 // =======================
 // プロフィール（ログイン必須）
