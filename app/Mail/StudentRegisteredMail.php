@@ -5,7 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\User; // 生徒モデルがUserなら
+use App\Models\Student;
 
 class StudentRegisteredMail extends Mailable
 {
@@ -14,19 +14,20 @@ class StudentRegisteredMail extends Mailable
     public $student;
 
     /**
-     * Create a new message instance.
+     * コンストラクタ
      */
-    public function __construct(User $student)
+    public function __construct(Student $student)
     {
         $this->student = $student;
     }
 
     /**
-     * Build the message.
+     * メールの組み立て
      */
     public function build()
     {
-        return $this->subject('【登録完了】生徒情報が登録されました')
+        return $this->from(config('mail.from.address'), config('mail.from.name'))
+                    ->subject('【登録完了】生徒情報が登録されました') // ← UTF-8 そのまま
                     ->markdown('emails.students.registered');
     }
 }

@@ -57,7 +57,7 @@ class StudentController extends Controller
         // 登録完了メール送信
         Mail::to($student->email)->send(new StudentRegisteredMail($student));
 
-        return redirect()->route('students.create')
+        return redirect()->route('welcome')
                          ->with('status', '生徒を登録しました。登録完了メールを送信しました。');
     }
 }
