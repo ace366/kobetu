@@ -7,6 +7,12 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SchoolController;
 use App\Models\User;
+use App\Http\Controllers\StudentCalendarController;
+
+Route::middleware(['web','auth'])->group(function(){
+    Route::get('/staff/calendars', [StudentCalendarController::class, 'index'])->name('staff.calendars.index');
+    Route::get('/staff/calendars/pdf', [StudentCalendarController::class, 'pdf'])->name('staff.calendars.pdf');
+});
 
 // =======================
 // 生徒ログイン
