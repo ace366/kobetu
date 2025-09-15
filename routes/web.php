@@ -20,6 +20,8 @@ Route::middleware(['web','auth'])->prefix('staff')->name('staff.')->group(functi
     Route::put('holidays/{holiday}', [HolidayController::class,'update'])->name('holidays.update');
     Route::delete('holidays/{holiday}', [HolidayController::class,'destroy'])->name('holidays.destroy');
     Route::post('holidays/bulk', [HolidayController::class,'bulkStore'])->name('holidays.bulk');
+    Route::post('holidays/import', [HolidayController::class,'importFromApi'])->name('holidays.import');
+
 
     // 生徒の個別休
     Route::get('student-off-days', [StudentOffDayAdminController::class,'index'])->name('student_off_days.index');

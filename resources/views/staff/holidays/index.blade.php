@@ -61,6 +61,25 @@
       </table>
       <div class="p-2">{{ $holidays->links() }}</div>
     </div>
+    <div class="mt-6 bg-white rounded shadow p-4" id="import">
+      <h2 class="font-semibold mb-2">APIから祝日を取り込む（excelapi.org）</h2>
+      <form method="POST" action="{{ route('staff.holidays.import') }}" class="grid grid-cols-1 md:grid-cols-5 gap-3">
+        @csrf
+        <div>
+          <label class="text-sm text-gray-600">年</label>
+          <input type="number" name="year" class="w-full border rounded p-2" value="{{ $year }}" min="2000" max="2100" required>
+        </div>
+        <div class="flex items-center gap-2 md:col-span-3">
+          <label class="inline-flex items-center">
+            <input type="checkbox" name="overwrite" value="1" class="mr-2" checked>
+            既存データを上書きする
+          </label>
+        </div>
+        <div class="md:col-span-1 flex items-end">
+          <button class="bg-amber-600 text-white px-4 py-2 rounded">API取込</button>
+        </div>
+      </form>
+    </div>
 
     <div class="mt-6 bg-white rounded shadow p-4">
       <h2 class="font-semibold mb-2">期間一括登録（GW / お盆 / 年末年始など）</h2>

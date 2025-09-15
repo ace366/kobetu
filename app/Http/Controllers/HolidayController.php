@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Holiday;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
+use App\Services\HolidayImporter;
 
 class HolidayController extends Controller
 {
@@ -45,7 +46,7 @@ class HolidayController extends Controller
         $data = $request->validate([
             'date'     => ['required','date','unique:holidays,date'],
             'name'     => ['required','string','max:255'],
-            'category' => ['required','in:national,gw,obon,yearend,other'],
+            'category' => ['required','in:national,substitute,gw,obon,yearend,other'],
         ]);
         Holiday::create($data);
         return redirect()->route('staff.holidays.index')->with('status', '登録しました');
@@ -61,7 +62,7 @@ class HolidayController extends Controller
         $data = $request->validate([
             'date'     => ['required','date','unique:holidays,date,'.$holiday->id],
             'name'     => ['required','string','max:255'],
-            'category' => ['required','in:national,gw,obon,yearend,other'],
+            'category' => ['required','in:national,substitute,gw,obon,yearend,other'],
         ]);
         $holiday->update($data);
         return redirect()->route('staff.holidays.index')->with('status', '更新しました');
@@ -94,5 +95,16 @@ class HolidayController extends Controller
             $count++;
         }
         return back()->with('status', "{$count}件登録/更新しました");
+    }
+    public function importFromApi(\Illuminate\Http\Request $request, HolidayImporter $importer)
+    {
+        $data = $request->validate([
+            'year'       => ['required','integer','min:2000','max:2100'],
+            'overwrite'  => ['nullable','boolean'],
+        ]);
+        $result = $importer->importYear((int)$data['year'], (bool)($data['overwrite'] ?? true));
+
+        $msg = "API取込: 作成{$result['created']} / 更新{$result['updated']} / スキップ{$result['skipped']} / エラー{$result['errors']}";
+        return redirect()->route('staff.holidays.index', ['year'=>$data['year']])->with('status', $msg);
     }
 }

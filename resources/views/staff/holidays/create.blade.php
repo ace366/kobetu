@@ -23,11 +23,19 @@
       <div>
         <label class="text-sm text-gray-600">区分</label>
         <select name="category" class="w-full border rounded p-2" required>
-          @foreach(['national'=>'祝日','gw'=>'GW','obon'=>'お盆','yearend'=>'年末年始','other'=>'その他'] as $k=>$v)
+          @foreach([
+            'national'   => '祝日',
+            'substitute' => '振替休日',   {{-- 追加 --}}
+            'gw'         => 'GW',
+            'obon'       => 'お盆',
+            'yearend'    => '年末年始',
+            'other'      => 'その他',
+          ] as $k=>$v)
             <option value="{{ $k }}">{{ $v }}</option>
           @endforeach
         </select>
       </div>
+
       <div class="pt-2">
         <button class="bg-blue-600 text-white px-4 py-2 rounded">登録</button>
         <a href="{{ route('staff.holidays.index') }}" class="ml-2 text-gray-600">戻る</a>

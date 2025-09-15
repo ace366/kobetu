@@ -25,11 +25,31 @@
             </div>
             <div class="md:col-span-4">
                 <button class="bg-indigo-600 text-white px-4 py-2 rounded">表示</button>
+
                 @if($student)
                     <a class="ml-2 bg-green-600 text-white px-4 py-2 rounded" target="_blank"
-                       href="{{ route('staff.calendars.pdf', ['student_id'=>$student->id,'year'=>$year,'month'=>$month]) }}">PDFダウンロード</a>
+                    href="{{ route('staff.calendars.pdf', ['student_id'=>$student->id,'year'=>$year,'month'=>$month]) }}">
+                        PDFダウンロード
+                    </a>
                 @endif
+
+                {{-- ★ 祝日登録 ここを追加 --}}
+                <a href="{{ route('staff.holidays.create') }}"
+                class="ml-2 bg-pink-600 text-white px-4 py-2 rounded">
+                    祝日登録
+                </a>
+
+                {{-- （任意）祝日一覧へのショートカット --}}
+                <a href="{{ route('staff.holidays.index', ['year'=>$year,'month'=>$month]) }}"
+                class="ml-2 bg-slate-600 text-white px-4 py-2 rounded">
+                    祝日一覧
+                </a>
+                <a href="{{ route('staff.holidays.index', ['year'=>$year,'month'=>$month]) }}#bulk"
+                    class="ml-2 bg-emerald-600 text-white px-4 py-2 rounded">
+                    期間一括登録
+                </a>
             </div>
+
         </form>
 
         @if($student)

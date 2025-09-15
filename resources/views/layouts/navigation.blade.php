@@ -21,7 +21,24 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('ユーザー一覧') }}
                     </x-nav-link>
-
+                    {{-- 職員メニューに --}}
+                    @auth
+                    @if(in_array(auth()->user()->role, ['admin','teacher','staff']))
+                    <x-nav-link :href="route('ai.prompts.index')" :active="request()->routeIs('ai.prompts.*')">
+                    {{ __('プロンプト管理') }}
+                    </x-nav-link>
+                    {{-- ★ カレンダー（スタッフ用） --}}
+                    <x-nav-link :href="route('staff.calendars.index')" :active="request()->routeIs('staff.calendars.*')">
+                        {{ __('カレンダー') }}
+                    </x-nav-link>
+                    @endif
+                    @endauth
+                    {{-- 生徒メニューに --}}
+                    @auth('student')
+                    <x-nav-link :href="route('ai.chat')" :active="request()->routeIs('ai.chat')">
+                    {{ __('教えて！彩さん') }}
+                    </x-nav-link>
+                    @endauth
                 </div>
 
             </div>
