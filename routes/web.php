@@ -8,7 +8,28 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SchoolController;
 use App\Models\User;
 use App\Http\Controllers\StudentCalendarController;
+use App\Http\Controllers\HolidayController;
+use App\Http\Controllers\StudentOffDayAdminController;
 
+Route::middleware(['web','auth'])->prefix('staff')->name('staff.')->group(function(){
+    // 祝日・特別休暇
+    Route::get('holidays', [HolidayController::class,'index'])->name('holidays.index');
+    Route::get('holidays/create', [HolidayController::class,'create'])->name('holidays.create');
+    Route::post('holidays', [HolidayController::class,'store'])->name('holidays.store');
+    Route::get('holidays/{holiday}/edit', [HolidayController::class,'edit'])->name('holidays.edit');
+    Route::put('holidays/{holiday}', [HolidayController::class,'update'])->name('holidays.update');
+    Route::delete('holidays/{holiday}', [HolidayController::class,'destroy'])->name('holidays.destroy');
+    Route::post('holidays/bulk', [HolidayController::class,'bulkStore'])->name('holidays.bulk');
+
+    // 生徒の個別休
+    Route::get('student-off-days', [StudentOffDayAdminController::class,'index'])->name('student_off_days.index');
+    Route::get('student-off-days/create', [StudentOffDayAdminController::class,'create'])->name('student_off_days.create');
+    Route::post('student-off-days', [StudentOffDayAdminController::class,'store'])->name('student_off_days.store');
+    Route::get('student-off-days/{student_off_day}/edit', [StudentOffDayAdminController::class,'edit'])->name('student_off_days.edit');
+    Route::put('student-off-days/{student_off_day}', [StudentOffDayAdminController::class,'update'])->name('student_off_days.update');
+    Route::delete('student-off-days/{student_off_day}', [StudentOffDayAdminController::class,'destroy'])->name('student_off_days.destroy');
+    Route::post('student-off-days/bulk', [StudentOffDayAdminController::class,'bulkStore'])->name('student_off_days.bulk');
+});
 Route::middleware(['web','auth'])->group(function(){
     Route::get('/staff/calendars', [StudentCalendarController::class, 'index'])->name('staff.calendars.index');
     Route::get('/staff/calendars/pdf', [StudentCalendarController::class, 'pdf'])->name('staff.calendars.pdf');
