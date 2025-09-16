@@ -10,8 +10,10 @@ use App\Models\User;
 use App\Http\Controllers\StudentCalendarController;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\StudentOffDayAdminController;
+use App\Http\Controllers\ClassroomController;
 
 Route::middleware(['web','auth'])->prefix('staff')->name('staff.')->group(function(){
+    Route::resource('classrooms', ClassroomController::class)->except(['show']);
     // 祝日・特別休暇
     Route::get('holidays', [HolidayController::class,'index'])->name('holidays.index');
     Route::get('holidays/create', [HolidayController::class,'create'])->name('holidays.create');

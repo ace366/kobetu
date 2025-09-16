@@ -31,6 +31,11 @@
                     <x-nav-link :href="route('staff.calendars.index')" :active="request()->routeIs('staff.calendars.*')">
                         {{ __('カレンダー') }}
                     </x-nav-link>
+                    {{-- 例：ナビメニュー内 --}}
+                    <a href="{{ route('staff.classrooms.index') }}"
+                    class="{{ request()->routeIs('staff.classrooms.*') ? 'text-indigo-600 font-semibold' : 'text-gray-700 hover:underline' }}">
+                    教室情報
+                    </a>
                     @endif
                     @endauth
                     {{-- 生徒メニューに --}}
