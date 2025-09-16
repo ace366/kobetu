@@ -114,7 +114,7 @@
 </tr>
 <tr>
     <td colspan="7" style="border:1px solid #999; padding:10px 6px;">
-        {{ $student->last_name }} {{ $student->first_name }}
+        {{ $student->last_name }} {{ $student->first_name }}（ {{ $student->last_name_kana }} {{ $student->first_name_kana }}）
     </td>
     <td colspan="5" style="border:1px solid #999; padding:10px 6px;">
         {{ $student->school?->name ?? '未設定' }}
@@ -211,6 +211,12 @@
             □日時の変更は必ず前営業日までにご連絡ください。当日の変更はキャンセルの扱いとなり、振り替えの授業は行いません。<br>
             □日曜・祝日・ゴールデンウィーク・お盆・年末年始、及び個別休は灰色表示。該当日の名称や理由も表示します。
         </div>
+    </div>
+    {{-- ★ 生徒所属教室情報 --}}
+    <div style="margin-top:30px; font-size:15px; font-weight:bold;">
+        所属教室：{{ $student->classroom?->name ?? '未設定' }}　
+        TEL：{{ $student->classroom?->tel ?? '未設定' }}
+        メールアドレス：{{ $student->classroom?->email ?? '未設定' }}
     </div>
 
 </body>
