@@ -31,6 +31,11 @@
                     href="{{ route('staff.calendars.pdf', ['student_id'=>$student->id,'year'=>$year,'month'=>$month]) }}">
                         PDFダウンロード
                     </a>
+                    {{-- PDF印刷プレビューボタン --}}
+                    <a class="ml-2 bg-orange-600 text-white px-4 py-2 rounded" target="_blank"
+                    href="{{ route('staff.calendars.pdf', ['student_id'=>$student->id,'year'=>$year,'month'=>$month]) }}">
+                        印刷プレビュー
+                    </a>
                 @endif
 
                 {{-- ★ 祝日登録 ここを追加 --}}

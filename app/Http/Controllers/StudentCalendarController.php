@@ -8,7 +8,6 @@ use Barryvdh\DomPDF\Facade\Pdf; // barryvdh/laravel-dompdf を使用
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 class StudentCalendarController extends Controller
 {
@@ -35,7 +34,7 @@ class StudentCalendarController extends Controller
         return view('calendars.student_month', compact('students','student','year','month','grid'));
     }
 
-    /** PDF 出力（1名分） */
+    /** PDF 印刷プレビュー（1名分） */
     public function pdf(Request $request)
     {
         $data = $request->validate([
@@ -54,7 +53,9 @@ class StudentCalendarController extends Controller
         ])->setPaper('A4','portrait');
 
         $filename = sprintf('calendar_%s_%04d-%02d.pdf', $student->id, $data['year'], $data['month']);
-        return $pdf->download($filename);
+
+        // ★ ダウンロードではなくブラウザに直接表示（印刷プレビュー可能）
+        return $pdf->stream($filename);
     }
 
     /** 月の 7x6 グリッドを返す */
@@ -63,11 +64,11 @@ class StudentCalendarController extends Controller
         $first = CarbonImmutable::create($year, $month, 1)->startOfDay();
         $last  = $first->endOfMonth();
 
-        // その月の祝日＆特別休暇（GW/お盆/年末年始）
+        // 祝日＆特別休暇
         $monthHolidays = Holiday::whereBetween('date', [$first->toDateString(), $last->toDateString()])->get();
         $holidayByDate = $monthHolidays->keyBy(fn($h) => $h->date->toDateString());
 
-        // 生徒の個別お休み
+        // 生徒の個別休暇
         $offDays = StudentOffDay::where('student_id', $studentId)
             ->whereBetween('date', [$first->toDateString(), $last->toDateString()])
             ->get()
