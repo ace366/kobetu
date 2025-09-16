@@ -38,19 +38,17 @@
                 </div>
             </div>
 
-            <div class="mb-3">
-                <label class="block mb-1">学校名</label>
-                <input type="text" name="school_name" list="schools" 
-                    class="w-full border rounded px-2 py-1" placeholder="学校を入力してください" required>
+<div class="mb-3">
+    <label class="block mb-1">学校名</label>
+    <input type="text" id="school-input" 
+           class="w-full border rounded px-2 py-1" 
+           placeholder="学校を入力してください" autocomplete="off" required>
 
-                <datalist id="schools">
-                    @foreach($schools as $school)
-                        <option value="{{ $school->name }}">
-                            {{ $school->name }} ({{ $school->city }} {{ $school->prefecture }})
-                        </option>
-                    @endforeach
-                </datalist>
-            </div>
+    {{-- 実際にDBに保存するのは hidden の school_id --}}
+    <input type="hidden" name="school_id" id="school-id">
+
+    <ul id="school-suggestions" class="border bg-white mt-1 rounded shadow hidden"></ul>
+</div>
 
             <div class="mb-3">
                 <label class="block mb-1">学年</label>
@@ -149,4 +147,39 @@ document.getElementById('school').addEventListener('input', function() {
         });
 });
 
+</script>
+<script>
+const input = document.getElementById('school-input');
+const hidden = document.getElementById('school-id');
+const suggestions = document.getElementById('school-suggestions');
+
+input.addEventListener('input', function() {
+    let q = this.value;
+    suggestions.innerHTML = '';
+    if (q.length < 1) {
+        suggestions.classList.add('hidden');
+        return;
+    }
+
+    fetch(`/kobetu/public/api/schools?q=${encodeURIComponent(q)}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.length === 0) {
+                suggestions.classList.add('hidden');
+                return;
+            }
+            data.forEach(school => {
+                let li = document.createElement('li');
+                li.textContent = `${school.name} (${school.city ?? ''} ${school.prefecture ?? ''})`;
+                li.classList.add('px-2','py-1','cursor-pointer','hover:bg-gray-200');
+                li.onclick = function() {
+                    input.value = school.name;
+                    hidden.value = school.id; // ← ここでIDをセット！
+                    suggestions.classList.add('hidden');
+                };
+                suggestions.appendChild(li);
+            });
+            suggestions.classList.remove('hidden');
+        });
+});
 </script>
