@@ -16,6 +16,18 @@
 
         <form method="POST" action="{{ route('students.store') }}">
             @csrf
+            <div class="mb-3">
+                <label class="block mb-1">教室</label>
+                <input type="text" id="classroom-input" 
+                    class="w-full border rounded px-2 py-1" 
+                    placeholder="教室を入力してください" autocomplete="off" required>
+
+                {{-- 実際にDBに保存するのは hidden の classroom_id --}}
+                <input type="hidden" name="classroom_id" id="classroom-id">
+
+                <ul id="classroom-suggestions" class="border bg-white mt-1 rounded shadow hidden"></ul>
+            </div>
+
             <div class="grid grid-cols-2 gap-4 mb-3">
                 <div>
                     <label class="block mb-1">姓（漢字）</label>
@@ -38,17 +50,17 @@
                 </div>
             </div>
 
-<div class="mb-3">
-    <label class="block mb-1">学校名</label>
-    <input type="text" id="school-input" 
-           class="w-full border rounded px-2 py-1" 
-           placeholder="学校を入力してください" autocomplete="off" required>
+            <div class="mb-3">
+                <label class="block mb-1">学校名</label>
+                <input type="text" id="school-input" 
+                    class="w-full border rounded px-2 py-1" 
+                    placeholder="学校を入力してください" autocomplete="off" required>
 
-    {{-- 実際にDBに保存するのは hidden の school_id --}}
-    <input type="hidden" name="school_id" id="school-id">
+                {{-- 実際にDBに保存するのは hidden の school_id --}}
+                <input type="hidden" name="school_id" id="school-id">
 
-    <ul id="school-suggestions" class="border bg-white mt-1 rounded shadow hidden"></ul>
-</div>
+                <ul id="school-suggestions" class="border bg-white mt-1 rounded shadow hidden"></ul>
+            </div>
 
             <div class="mb-3">
                 <label class="block mb-1">学年</label>
@@ -84,6 +96,42 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/@tailwindcss/line-clamp@latest"></script>
+<script>
+const classroomInput = document.getElementById('classroom-input');
+const classroomHidden = document.getElementById('classroom-id');
+const classroomSuggestions = document.getElementById('classroom-suggestions');
+
+classroomInput.addEventListener('input', function() {
+    let q = this.value;
+    classroomSuggestions.innerHTML = '';
+    if (q.length < 1) {
+        classroomSuggestions.classList.add('hidden');
+        return;
+    }
+
+    fetch(`/kobetu/public/api/classrooms?q=${encodeURIComponent(q)}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.length === 0) {
+                classroomSuggestions.classList.add('hidden');
+                return;
+            }
+            data.forEach(classroom => {
+                let li = document.createElement('li');
+                li.textContent = `${classroom.name} (${classroom.code})`;
+                li.classList.add('px-2','py-1','cursor-pointer','hover:bg-gray-200');
+                li.onclick = function() {
+                    classroomInput.value = classroom.name;
+                    classroomHidden.value = classroom.id; // ← DB保存用ID
+                    classroomSuggestions.classList.add('hidden');
+                };
+                classroomSuggestions.appendChild(li);
+            });
+            classroomSuggestions.classList.remove('hidden');
+        });
+});
+</script>
+
 <script>
 document.getElementById('school').addEventListener('input', function() {
     let q = this.value;

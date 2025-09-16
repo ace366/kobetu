@@ -16,6 +16,7 @@ class Student extends Authenticatable
         'last_name_kana',
         'first_name_kana',
         'school_id',
+        'classroom_id',   // ← 追加
         'grade',
         'phone',
         'email',

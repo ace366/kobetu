@@ -35,6 +35,7 @@ class StudentController extends Controller
             'last_name_kana'  => 'required|string|max:50',
             'first_name_kana' => 'required|string|max:50',
             'school_id'       => 'required|exists:schools,id',
+            'classroom_id'    => 'required|exists:classrooms,id', // ★追加
             'grade'           => 'required|string',
             'phone'           => 'nullable|string|max:20',
             'email'           => 'required|email|unique:students,email',
@@ -48,6 +49,7 @@ class StudentController extends Controller
             'last_name_kana'  => $request->last_name_kana,
             'first_name_kana' => $request->first_name_kana,
             'school_id'       => $request->school_id,
+            'classroom_id'    => $request->classroom_id, // ★追加
             'grade'           => $request->grade,
             'phone'           => $request->phone,
             'email'           => $request->email,
