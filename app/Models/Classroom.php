@@ -12,4 +12,8 @@ class Classroom extends Model
     protected $fillable = [
         'code', 'name', 'postal_code', 'address', 'tel', 'email',
     ];
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
 }
