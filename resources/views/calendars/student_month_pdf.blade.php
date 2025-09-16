@@ -56,10 +56,10 @@
     /* 曜日行専用スタイル */
   .calendar thead th {
     height: 12px !important;   /* 高さを強制的に小さく */
-    padding: 0 !important;     /* 余白をなくす */
-    margin: 0;
+    padding: 1 !important;     /* 余白をなくす */
+    margin: 1;
     line-height: 1;            /* 行間を詰める */
-    font-size: 10px;           /* フォントも小さめに */
+    font-size: 20px;           /* フォントも小さめに */
  }
 </style>
 
@@ -79,28 +79,28 @@
         <td colspan="5" style="padding:0;">
             <table style="width:100%; border-collapse:collapse; font-size:11px; text-align:center;">
                 <tr>
-                    <td colspan="1" style="border:1px solid #999; padding:10px 4px; background:#fff;">通常</td>
-                    <td colspan="2" style="border:1px solid #999; padding:10px 4px; background:#fff; border-right:none;">月</td>
-                    <td colspan="1" style="border:1px solid #999; padding:10px 4px; background:#fff; border-left:none;">&nbsp;&nbsp;回</td>
-                    <td colspan="1" style="border:1px solid #999; padding:10px 4px; background:#fff;">無料コマ</td>
-                    <td colspan="1" style="border:1px solid #999; padding:10px 4px; background:#fff; border-right:none;"></td>
-                    <td colspan="2" style="border:1px solid #999; padding:10px 4px; background:#fff; border-left:none;">&nbsp;&nbsp;回</td>
+                    <td colspan="1" style="border:1px solid #999; padding:8px 4px; background:#fff;">通常</td>
+                    <td colspan="2" style="border:1px solid #999; padding:8px 4px; background:#fff; border-right:none;">月</td>
+                    <td colspan="1" style="border:1px solid #999; padding:8px 4px; background:#fff; border-left:none;">&nbsp;&nbsp;回</td>
+                    <td colspan="1" style="border:1px solid #999; padding:8px 4px; background:#fff;">無料コマ</td>
+                    <td colspan="1" style="border:1px solid #999; padding:8px 4px; background:#fff; border-right:none;"></td>
+                    <td colspan="2" style="border:1px solid #999; padding:8px 4px; background:#fff; border-left:none;">&nbsp;&nbsp;回</td>
                 </tr>
                 <tr>
-                    <td colspan="1" style="border:1px solid #999; padding:10px 4px; background:#fff;">スタ講残</td>
-                    <td colspan="2" style="border:1px solid #999; padding:10px 4px; background:#fff; border-right:none;"></td>
-                    <td colspan="1" style="border:1px solid #999; padding:10px 4px; background:#fff; border-left:none;">&nbsp;&nbsp;回</td>
-                    <td colspan="1" style="border:1px solid #999; padding:10px 4px; background:#fff;">預かり授業残</td>
-                    <td colspan="1" style="border:1px solid #999; padding:10px 4px; background:#fff; border-right:none;"></td>
-                    <td colspan="2" style="border:1px solid #999; padding:10px 4px; background:#fff; border-left:none;">&nbsp;&nbsp;回</td>
+                    <td colspan="1" style="border:1px solid #999; padding:8px 4px; background:#fff;">スタ講残</td>
+                    <td colspan="2" style="border:1px solid #999; padding:8px 4px; background:#fff; border-right:none;"></td>
+                    <td colspan="1" style="border:1px solid #999; padding:8px 4px; background:#fff; border-left:none;">&nbsp;&nbsp;回</td>
+                    <td colspan="1" style="border:1px solid #999; padding:8px 4px; background:#fff;">預かり授業残</td>
+                    <td colspan="1" style="border:1px solid #999; padding:8px 4px; background:#fff; border-right:none;"></td>
+                    <td colspan="2" style="border:1px solid #999; padding:8px 4px; background:#fff; border-left:none;">&nbsp;&nbsp;回</td>
                 </tr>
                 <tr>
-                    <td colspan="1" style="border:1px solid #999; padding:10px 4px; background:#fff;">季節講習残</td>
-                    <td colspan="2" style="border:1px solid #999; padding:10px 4px; background:#fff; border-right:none;"></td>
-                    <td colspan="1" style="border:1px solid #999; padding:10px 4px; background:#fff;border-left:none;">&nbsp;&nbsp;回</td>
-                    <td colspan="1" style="border:1px solid #999; padding:10px 4px; background:#fff;"></td>
-                    <td colspan="1" style="border:1px solid #999; padding:10px 4px; background:#fff; border-right:none;">月</td>
-                    <td colspan="2" style="border:1px solid #999; padding:10px 4px; background:#fff; border-left:none;">&nbsp;&nbsp;回</td>
+                    <td colspan="1" style="border:1px solid #999; padding:8px 4px; background:#fff;">季節講習残</td>
+                    <td colspan="2" style="border:1px solid #999; padding:8px 4px; background:#fff; border-right:none;"></td>
+                    <td colspan="1" style="border:1px solid #999; padding:8px 4px; background:#fff;border-left:none;">&nbsp;&nbsp;回</td>
+                    <td colspan="1" style="border:1px solid #999; padding:8px 4px; background:#fff;"></td>
+                    <td colspan="1" style="border:1px solid #999; padding:8px 4px; background:#fff; border-right:none;">月</td>
+                    <td colspan="2" style="border:1px solid #999; padding:8px 4px; background:#fff; border-left:none;">&nbsp;&nbsp;回</td>
                 </tr>
             </table>
         </td>
@@ -168,7 +168,7 @@
 
         <tbody>
         @foreach($grid as $week)
-            <tr><th>教科<br>指導時間<br>講師名<br>行事</th>
+            <tr><th><br><br>教科<br>指導時間<br>講師名<br>行事</th>
                 @foreach($week as $cell)
                     @php
                         // クラス判定（Blade側で完結させ、unexpected token を避ける）
